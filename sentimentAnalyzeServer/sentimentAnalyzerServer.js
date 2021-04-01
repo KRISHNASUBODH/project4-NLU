@@ -1,4 +1,5 @@
 const express = require('express');
+const app = new express();
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -20,7 +21,7 @@ function getNLUInstance(){
 
 	return  naturalLanguageUnderstanding; 
 }
-const app = new express();
+
 
 app.use(express.static('client'))
 
@@ -32,20 +33,23 @@ app.get("/",(req,res)=>{
   });
 
 app.get("/url/emotion", (req,res) => {
-
-    return res.send({"happy":"90","sad":"10"});
+    getNLUInstance();
+    return res.send({"happy":"90","sad":"10"}, {getNLUInstance()});
 });
 
 app.get("/url/sentiment", (req,res) => {
-    return res.send("url sentiment for "+req.query.url);
+    getNLUInstance();
+    return res.send("url sentiment for "+req.query.url+{getNLUInstance()});
 });
 
 app.get("/text/emotion", (req,res) => {
-    return res.send({"happy":"10","sad":"90"});
+    getNLUInstance();
+    return res.send({"happy":"10","sad":"90"}+{getNLUInstance()});
 });
 
 app.get("/text/sentiment", (req,res) => {
-    return res.send("text sentiment for "+req.query.text);
+    getNLUInstance();
+    return res.send("text sentiment for "+req.query.text+{getNLUInstance()});
 });
 
 let server = app.listen(8080, () => {
